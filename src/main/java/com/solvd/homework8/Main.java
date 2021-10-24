@@ -43,9 +43,11 @@ public class Main {
 
         Department qa = new Department("Quality Assurance");
         Department webdev = new Department("Software Web Development");
+        Department hr1 = new Department("Human resources");
         List<Department> solvdDepartments = new ArrayList<>();
         solvdDepartments.add(qa);
         solvdDepartments.add(webdev);
+        solvdDepartments.add(hr1);
         solvd.setDepartments(solvdDepartments);
 
         Service manualTest = new Service("manual testing", 200.00);
