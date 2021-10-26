@@ -22,7 +22,7 @@ public class Company {
     private String title;
     private CEO director;
     private Set<Worker> workers;
-    private List<Department> departments;
+    private Department departments;
     private AccountingImpl accounting;
     private List<Cleaning> cleanings;
     private int phoneNumber;
@@ -42,6 +42,15 @@ public class Company {
             income = income + order.getValue().getService().getPrice();
         }
         LOGGER.info("The income will be " + income + "$");
+    }
+
+    public void printDepartments(){
+        Department[] deps = Department.values();
+        String depList = "";
+        for (Department dep: deps){
+            depList += dep + " ";
+        }
+        LOGGER.info(title + " has following departments: " + depList);
     }
 
     @Override
@@ -97,11 +106,11 @@ public class Company {
         return workers;
     }
 
-    public void setDepartments(List<Department> departments) {
+    public void setDepartments(Department departments) {
         this.departments = departments;
     }
 
-    public List<Department> getDepartments() {
+    public Department getDepartments() {
         return departments;
     }
 

@@ -3,7 +3,6 @@ package com.solvd.companystructure;
 import com.solvd.companystructure.companyinfo.Activity;
 import com.solvd.companystructure.companyinfo.Company;
 import com.solvd.companystructure.companyinfo.Course;
-import com.solvd.companystructure.companyinfo.Department;
 import com.solvd.companystructure.companyinfo.impl.AccountingImpl;
 import com.solvd.companystructure.exception.InvalidPhoneException;
 import com.solvd.companystructure.infrastructure.*;
@@ -20,6 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.solvd.companystructure.companyinfo.Department.QA;
 import static com.solvd.companystructure.infrastructure.Mark.*;
 
 public class Main {
@@ -43,23 +43,13 @@ public class Main {
 
         solvd.setSite("solvd.com");
 
-        Department qa = new Department("Quality Assurance");
-        Department webdev = new Department("Software Web Development");
-        Department hr = new Department("Human resources");
-        Department pr = new Department("Public relations");
-        List<Department> solvdDepartments = new ArrayList<>();
-        solvdDepartments.add(qa);
-        solvdDepartments.add(webdev);
-        solvdDepartments.add(hr);
-        solvdDepartments.add(pr);
-        solvd.setDepartments(solvdDepartments);
 
         Service manualTest = new Service("manual testing", 200.00);
         Service autoTest = new Service("automated testing", 300.00);
         List<Service> qaServices = new ArrayList<>();
         qaServices.add(manualTest);
         qaServices.add(autoTest);
-        qa.setServices(qaServices);
+        QA.setServices(qaServices);
 
         Worker vasya = new Worker("Vasiliy", "Petrov", 30.00);
         vasya.setStartVacation(LocalDateTime.of(2021, 10, 1, 0, 0));
@@ -312,5 +302,8 @@ public class Main {
         lap1.writeOrigin();
         lap2.writeOrigin();
         comp1.writeCharacteristic();
+        System.out.println();
+
+        solvd.printDepartments();
     }
 }
