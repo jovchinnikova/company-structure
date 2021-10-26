@@ -22,7 +22,7 @@ public class Company {
     private String title;
     private CEO director;
     private Set<Worker> workers;
-    private Department departments;
+    private final Department[] departments = Department.values();
     private AccountingImpl accounting;
     private List<Cleaning> cleanings;
     private int phoneNumber;
@@ -45,9 +45,8 @@ public class Company {
     }
 
     public void printDepartments(){
-        Department[] deps = Department.values();
         String depList = "";
-        for (Department dep: deps){
+        for (Department dep: departments){
             depList += dep + " ";
         }
         LOGGER.info(title + " has following departments: " + depList);
@@ -106,11 +105,7 @@ public class Company {
         return workers;
     }
 
-    public void setDepartments(Department departments) {
-        this.departments = departments;
-    }
-
-    public Department getDepartments() {
+    public Department[] getDepartments() {
         return departments;
     }
 

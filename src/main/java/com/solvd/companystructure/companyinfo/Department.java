@@ -8,7 +8,7 @@ public enum Department {
 
     QA("Quality Assurance"),WEBDEV("Software Web Development"),HR("Human resources"),PR("Public relations");
 
-    private String title;
+    private final String title;
     private List<Service> services;
 
     Department(String title) {
@@ -18,10 +18,6 @@ public enum Department {
     @Override
     public String toString() {
         return (title + " department");
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getTitle() {

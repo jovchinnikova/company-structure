@@ -4,7 +4,7 @@ public enum Mark {
 
     APPLE("USA"), LENOVO("China"),IBM("USA");
 
-    private String country;
+    private final String country;
 
     Mark(String country){
         this.country = country;
@@ -12,9 +12,5 @@ public enum Mark {
 
     public String getCountry() {
         return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 }

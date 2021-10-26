@@ -3,6 +3,7 @@ package com.solvd.companystructure;
 import com.solvd.companystructure.companyinfo.Activity;
 import com.solvd.companystructure.companyinfo.Company;
 import com.solvd.companystructure.companyinfo.Course;
+import com.solvd.companystructure.companyinfo.Department;
 import com.solvd.companystructure.companyinfo.impl.AccountingImpl;
 import com.solvd.companystructure.exception.InvalidPhoneException;
 import com.solvd.companystructure.infrastructure.*;
@@ -18,9 +19,6 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
-
-import static com.solvd.companystructure.companyinfo.Department.QA;
-import static com.solvd.companystructure.infrastructure.Mark.*;
 
 public class Main {
 
@@ -43,13 +41,12 @@ public class Main {
 
         solvd.setSite("solvd.com");
 
-
         Service manualTest = new Service("manual testing", 200.00);
         Service autoTest = new Service("automated testing", 300.00);
         List<Service> qaServices = new ArrayList<>();
         qaServices.add(manualTest);
         qaServices.add(autoTest);
-        QA.setServices(qaServices);
+        Department.QA.setServices(qaServices);
 
         Worker vasya = new Worker("Vasiliy", "Petrov", 30.00);
         vasya.setStartVacation(LocalDateTime.of(2021, 10, 1, 0, 0));
@@ -211,9 +208,9 @@ public class Main {
         ControlClass.doAction(albert);
         System.out.println();
 
-        Laptop lap1 = new Laptop(APPLE, 14);
-        Laptop lap2 = new Laptop(LENOVO, 10);
-        Computer comp1 = new Computer(IBM, 20);
+        Laptop lap1 = new Laptop(Mark.APPLE, 14);
+        Laptop lap2 = new Laptop(Mark.LENOVO, 10);
+        Computer comp1 = new Computer(Mark.IBM, 20);
         List<Equipment> belEquipment = new ArrayList<>();
         belEquipment.add(lap1);
         belEquipment.add(lap2);
