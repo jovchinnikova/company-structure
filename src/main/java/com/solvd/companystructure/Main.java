@@ -20,6 +20,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.solvd.companystructure.infrastructure.Mark.*;
+
 public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
@@ -219,9 +221,9 @@ public class Main {
         ControlClass.doAction(albert);
         System.out.println();
 
-        Laptop lap1 = new Laptop("Apple", 14);
-        Laptop lap2 = new Laptop("Lenovo", 10);
-        Computer comp1 = new Computer("IBM", 20);
+        Laptop lap1 = new Laptop(APPLE, 14);
+        Laptop lap2 = new Laptop(LENOVO, 10);
+        Computer comp1 = new Computer(IBM, 20);
         List<Equipment> belEquipment = new ArrayList<>();
         belEquipment.add(lap1);
         belEquipment.add(lap2);
@@ -304,5 +306,11 @@ public class Main {
         fedyaPerformance.print();
         Fulfillment<Worker, List<FoodSupply>> egorPerformance = new Fulfillment<>(egor, egorWork);
         egorPerformance.print();
+        System.out.println();
+
+        lap1.writeCharacteristic();
+        lap1.writeOrigin();
+        lap2.writeOrigin();
+        comp1.writeCharacteristic();
     }
 }
