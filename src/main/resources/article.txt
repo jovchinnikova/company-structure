@@ -1,0 +1,79 @@
+To code or not to code? It seems that you’ve made your choice in favor of the first option. Programming is a great field for professional growth, It gives you an opportunity to take part in interesting projects and work wherever you want.
+The only obstacle that restrains many beginners from starting a new career is the lack of understanding of how exactly should they learn to code. What’s more important is that even the best universities can’t fully provide the education, which will guarantee a stark career as a software developer. The thing is that programming is too dynamic and flexible: once you start learning, you better do it for the rest of your life.
+Some programmers say, that they've been trying to learn how to code a few times before finally reaching their goal. Yes, we all learn through mistakes, but you’ll be surprised how many common lapses are there in mastering this skill.
+If you’re determined to learn Java programming, here are few useful thoughts for you. Let’s talk about mistakes, which almost all beginners do.
+Too many research, too little practice
+Here’s what happens when you try to learn to code the ordinary way. All of us are used to study by reading books: the thicker the book, the more knowledge you will get, right? Sorry, this is not the case for programming.
+A lack of practice in coding is fatal. Just start coding. Start from the first day of your study and practice every single day. You won’t learn to box or dance by watching videos. And you won’t get confident in coding unless you make it your daily habit.
+2. Endless studying without a certain goal
+Some students, despite their age, simply love to learn. It’s the process, not the result they aim for. Of course, it’s always great to broaden your scope, but you will probably agree that there’s no point in wasting hundreds (if not thousands of hours) to get a trendy hobby.
+In coding, even if sometimes it’s kinda tough for you, you simply love it or not. Developers, that code just to earn more money, won’t get hired to Google or other company with a big name.
+Because programming is simply not their vocation. Likewise, if it’s your passion, but you’re not ready to practice every day, programming might also be not for you.
+3. Trying to reach too many technologies at once
+Software development is a deep ocean of data and tools. If you try to learn everything that pops up and seems interesting, you might get stuck at the beginning totally confused.
+This is why you need a certain plan, that in your case should include Java Core, coding projects plus the programming tools. It will also help you avoid the risk of being a lifelong learner and set your education in a defined timeframe.
+4. Making gaps in your education
+Remember that “code every day” motto of learning Java? Good. Think about it every time you have a lure to skip a few days of education. Taking a break as a beginner is more dangerous than it seems.
+You start a new subject and it refers to the previous background which you already don’t remember at all. Such surprising “amnesia” will constantly drag you back, so do your best to move forward without any breaks.
+5. Thinking that the only thing you need to start coding is knowing Java language
+A language is a tool in the hands of a skilled creator. Some might say that you need to be brilliant at math to learn to code — no, you don’t. But knowing how to write the code won’t make you a programmer, too.
+Programming needs plenty of other skills: a strong logic, problem-solving, the ability to visualize the structure and sequence of processes. An experienced programmer doesn’t start to write code before thinking through the logic of the solution.
+6. Getting stuck on the tough pieces of theory
+Often there’s no direct correlation between the amount of time which you spend on the tasks or research and the successfulness of this action. When you learn Java, persistence is important in solving tasks or making the sense of a fresh topic.
+But sometimes you need to move on to get at the heart of your problem (later). A bit of friendly advice: don’t try to memorize code or delve too deep in “how the things work” in coding.
+In Java, many processes run automatically, so you can focus on the intuitive feel of programming and getting even more skilled.
+7. Ignoring the importance of a readable code
+When you learn to programme, your first priority is to make that code work. Here’s why beginners don’t pay much attention to the readable code with clear comments, which could be “decrypted” in the future.
+Here’s what most of the experienced programmers come across. When they find their first code, they don’t feel nostalgic. They try to understand, what in the world do those lines mean and exactly were they trying to accomplish. You will learn in a due course how to write readable code, but only if you make efforts.
+8. Not testing your code regularly
+Sad, but true: your code won’t always work as it was intended to. Be sure to check it regularly and don’t let the subsequent errors pile up. Instead of exhausting debugging and figuring out what and when’s gone wrong, you’ll deal with the smaller amount of problems on each stage.
+9. Learning Java all alone
+With so many online tools and sources for successful learning, you can easily become a self-educated programmer. One thing that’s missing is real communication. Your education would be much more effective if you join the community as soon as possible.
+For example, Coderanch and Stack Overflow forums have large discussion threads for Java programmers. Also, there’s an Oracle Java Community, which prompts newcomers and experienced developers to join the Java Forum and follow updates from Oracle Java bloggers. Java community at Reddit has more than 107k people.
+10. Thinking there will be the day when you know everything
+Listen to more experienced colleagues as a junior developer and never stop learning. Programming is a profession in a field with constant upgrades, new features, and technologies, which you need to grasp to stay a sought-after specialist.
+The revealed secrets of successful Java learning
+Now when you know “the demons” you may have to fight with, you’re almost ready to commence. Ok, five more minutes, my friend. Here are some practical bits of advice to “adjust” your learning.
+Schedule your education and minimize distractions. Create a plan and spare the time for learning daily. This will be your time strictly for building a bright future, not for chatting or tweeting :)
+CODE EVERY DAY. No matter what, practice every day and use tools to help you improve programming skills. Learning Java programming is useless without the real coding, which takes at least three times as much as theoretical researches. You’ll find a few sources for an effective and entertaining coding below.
+Ask the right questions. It’s okay to get help from developers community if you need a hint. Be sure to ask the specific questions instead of “something went wrong, can you help?”. You will become more confident if you’ll be a part of the programmers’ team. Read media, join discussions on Stack Overflow and Coderanch forums, make virtual friends on coding courses and work on complicated projects together.
+Make your work visible. Create a portfolio and give others a chance to see your work. You don’t code for yourself, right? Let alone you need a portfolio to get your first job as a Java developer.
+Continue learning every day, even after you succeed. Learning might be hard. Here’s why many stop trying right before it “clicks”. But you’ll have all the chances to succeed with the right planning, friendly environment, the right tools, desire to learn and motivation.
+Altogether, today you have the widest choice of sources: Java blogs, guides, tutorials, courses, coding “battlefields”. So just take them in the right proportions, mix your educational “cocktail” and take the first sip :)
+Where to train your Java skills
+No matter what kind of education you choose — video lectures, offline studying with an experienced mentor, online courses or self-education by reading books and guides — you need hundreds of hours of practice to become a confident and skilled Java developer. There’s no such thing as too much practice in coding. Luckily, there are plenty of tools to make this process entertaining.
+1. The sources for coding in multiple languages:
+Codecademy — learn to code by coding.
+The education on Codecademy includes practical tasks from the first lesson. Of course, they are very simple at the beginning not to scare anyone off, but gradually they become more complicated.
+Try to find the solution by yourself, and if it’s kind of tough, just click on the useful hints right at the taskbar or go to the FAQ section. It can be a good complementary tool in learning Java to sharpen your programming skills, but you’ll need other sources for learning key concepts;
+Codewars — join the coding competition.
+Try Codewars when you learn the fundamentals and become more confident at coding. This is an online platform, where you can compete with other programmers and sharpen your skills of coding in numerous programming languages. You can write your solutions in a browser and check them step by step, code individually or tackle the tasks in a group. The more tasks you solve, the more you get.
+2. Strictly for learning a practicing Java: CodeGym.cc.
+Sometimes it’s hard to will yourself into studying unless someone inspires you. CodeGym is one of those online studying platforms which use gamification to make your learning experience exciting. The course is divided into four quests with a general futuristic storyline and unique characters. Each quest includes ten levels. Each level is up to 10–13 lessons plus dozens of practical tasks. Like Codecademy, it includes coding from the first lesson through web IDE. Everything’s easy: read the task, write your solution, and click the “check” button to immediately get your result. Unlike other coding exercises, it offers clear explanations of Java theory, so it’s handy for total beginners.
+Java is among the most used programming languages in the world. It is basically used in developing the desktop application and web application. Developed by James Ghosling, Patrick Naughton, Mike Sheridan at Sun Microsystems Inc. in 1991, this programming language’s initial name was Oak but it was renamed to Java in 1995. Many Java versions have been released since it was developed. The current stable release of Java is Java SE 9, and next version is in the pipeline and will be realised soon.
+Today, Java is everywhere such as supercomputers, laptops, scientific gaming consoles, in mobile phones, apps, etc. According to a reliable resource, there are more than nine million Java developers in the world. This proves the increased demand for Java in the industry. That’s the main reasons more, and more youngster prefer to study Java language to start a good career. Fortunately, some institutions run core java tutorial class for students.
+Latest Trends in Java Programming Development
+Java is not just easy to learn, but also easy to understand, write, compile, debug, learn and use. One can easily create reusable code and modular programs. Keep reading this blog to know about the java trend and understand how it has dominated this field. When you purse the Java course successfully, you can be eligible to start your career in many areas. Some of the domains where Java is used are as follows:
+
+Financial Services
+Java Developers always required by the financial services team anywhere on the planet. Java programming language is used in server-side applications in the financial industry. So, there are always demands for java developers in this industry. Once you join a core java tutorial and gather complete knowledge of this programming language, you can be a part of building one of the largest independent technology and business services firms.
+
+Big Data
+Hadoop MapReduce – a software framework for easily writing applications – is written using Java. It processes vast amounts of data.
+
+Banking Sector
+Java is the best banking solution. Banks and similar financial institutions look out for Java developers as these professionals can deal with transaction management. Developers decide the programming language to develop applications. They use a high-performance programming language like Java to build a wide variety of mission-critical financial applications.
+
+Stock Market
+Those companies that are involved in stock market need to write a program that stimulated an investor buying and selling shares. For this, the investors need tools to display their portfolio and buy and sell stocks. Java programming language is the most reliable and standard language to write these algorithms as to which company the investors should invest in.
+
+Android Applications
+With the increased demand for Android apps, the need for Java developers has also increased. This is because Android apps are either written in Java or use Java API. So, as a Java expert, you can work in a mobile app development companies and many other organisations or businesses that use mobile apps for selling their products and services.
+
+Scientific and Research Community
+Scientific and research community happens to deal with massive amount of data. Therefore, most of the popular scientific software is written in Java. Thus, Java has become the most popular language in the academic and research community.
+
+Retail Industry
+When you go to a retail store, you often see the billing applications. Don’t be surprised to know that more and more retailers are opting for Java-based point-of-sale (POS) systems, replacing their age-old cash registers. Billing applications that you see in a restaurant or stores are written in Java.
+
+Thus, the Java is in trend, and will continue to be a trend in future.

@@ -15,6 +15,8 @@ import com.solvd.companystructure.services.impl.CountCostServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,7 +26,7 @@ public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         Company solvd = new Company("Solvd Inc");
         CEO director = new CEO("Ivan", "Ivanov");
@@ -293,6 +295,11 @@ public class Main {
         fedyaPerformance.print();
         Fulfillment<Worker, List<FoodSupply>> egorPerformance = new Fulfillment<>(egor, egorWork);
         egorPerformance.print();
+        System.out.println();
+
+        File file = new File("src/main/resources/article.txt");
+        WordsCount count1 = new WordsCount(file);
+        count1.countWords();
         System.out.println();
 
         lap1.writeCharacteristic();
