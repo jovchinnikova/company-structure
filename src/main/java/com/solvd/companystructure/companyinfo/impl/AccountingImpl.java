@@ -11,8 +11,20 @@ import java.util.Set;
 public class AccountingImpl implements Accounting {
 
     private static final Logger LOGGER = LogManager.getLogger(AccountingImpl.class);
+    private static AccountingImpl instance;
 
     private Set<Worker> workers;
+
+    private AccountingImpl(){
+
+    }
+
+    public static AccountingImpl createInstance(){
+        if(instance==null){
+            instance = new AccountingImpl();
+        }
+        return instance;
+    }
 
     @Override
     public void vacationCount(Worker worker) {

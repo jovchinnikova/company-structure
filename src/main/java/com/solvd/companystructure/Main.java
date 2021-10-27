@@ -104,7 +104,7 @@ public class Main {
         client1.performAction();
         System.out.println();
 
-        AccountingImpl accounting = new AccountingImpl();
+        AccountingImpl accounting = AccountingImpl.createInstance();
         solvd.setAccountingImpl(accounting);
         accounting.setWorkers(solvdWorkers);
         accounting.vacationCount(vasya);
