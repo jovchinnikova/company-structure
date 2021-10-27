@@ -1,9 +1,6 @@
 package com.solvd.companystructure;
 
-import com.solvd.companystructure.companyinfo.Activity;
-import com.solvd.companystructure.companyinfo.Company;
-import com.solvd.companystructure.companyinfo.Course;
-import com.solvd.companystructure.companyinfo.Department;
+import com.solvd.companystructure.companyinfo.*;
 import com.solvd.companystructure.companyinfo.impl.AccountingImpl;
 import com.solvd.companystructure.exception.InvalidPhoneException;
 import com.solvd.companystructure.infrastructure.*;
@@ -161,11 +158,13 @@ public class Main {
         engCourseParticip.addAll(tripParticip);
         engCourseParticip.add(igor);
         engCourseParticip.add(tolik);
-        Activity sportTrip = new Activity("sport trip", "forest", tripParticip);
-        Course engCourse = new Course("English course", "office", engCourseParticip);
+        Activity sportTrip = new Activity("sport trip", Location.FOREST, tripParticip);
+        Course engCourse = new Course("English course", Location.OFFICE, engCourseParticip);
+        Course qaCourse = new Course("QA course", Location.OFFICE,engCourseParticip);
         List<Activity> solvdActivities = new ArrayList<>();
         solvdActivities.add(sportTrip);
         solvdActivities.add(engCourse);
+        solvdActivities.add(qaCourse);
         solvd.setActivities(solvdActivities);
         LOGGER.info(sportTrip);
         LOGGER.info(engCourse);
@@ -309,5 +308,9 @@ public class Main {
         System.out.println();
 
         solvd.printDepartments();
+        System.out.println();
+
+        LOGGER.info(Location.OFFICE.findActivity(solvdActivities));
+        LOGGER.info(Location.CINEMA.findActivity(solvdActivities));
     }
 }

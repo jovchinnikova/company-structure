@@ -5,6 +5,7 @@ import com.solvd.companystructure.people.Worker;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.List;
 import java.util.Set;
 
 public class Activity implements Countable {
@@ -12,10 +13,10 @@ public class Activity implements Countable {
     private static final Logger LOGGER = LogManager.getLogger(Activity.class);
 
     private String name;
-    private String location;
+    private Location location;
     private Set<Worker> workers;
 
-    public Activity(String name, String location, Set<Worker> workers) {
+    public Activity(String name, Location location, Set<Worker> workers) {
         this.name = name;
         this.location = location;
         this.workers = workers;
@@ -58,11 +59,11 @@ public class Activity implements Countable {
         return name;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
