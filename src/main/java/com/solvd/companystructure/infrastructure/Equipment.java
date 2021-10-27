@@ -15,6 +15,21 @@ public abstract class Equipment {
         this.quantity = quantity;
     }
 
+    public enum Mark {
+
+        APPLE("USA"), LENOVO("China"),IBM("USA");
+
+        private final String country;
+
+        Mark(String country){
+            this.country = country;
+        }
+
+        public String getCountry() {
+            return country;
+        }
+    }
+
     public void writeOrigin(){
 
         LOGGER.info("This " + this.getClass().getSimpleName().toLowerCase() + " was made in " + mark.getCountry());

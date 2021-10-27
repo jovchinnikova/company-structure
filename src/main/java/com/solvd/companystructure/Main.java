@@ -210,9 +210,9 @@ public class Main {
         ControlClass.doAction(albert);
         System.out.println();
 
-        Laptop lap1 = new Laptop(Mark.APPLE, 14);
-        Laptop lap2 = new Laptop(Mark.LENOVO, 10);
-        Computer comp1 = new Computer(Mark.IBM, 20);
+        Laptop lap1 = new Laptop(Equipment.Mark.APPLE, 14);
+        Laptop lap2 = new Laptop(Equipment.Mark.LENOVO, 10);
+        Computer comp1 = new Computer(Equipment.Mark.IBM, 20);
         List<Equipment> belEquipment = new ArrayList<>();
         belEquipment.add(lap1);
         belEquipment.add(lap2);
