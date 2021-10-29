@@ -1,18 +1,60 @@
 package com.solvd.companystructure.infrastructure;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public abstract class Equipment {
 
-    private String mark;
+    private static final Logger LOGGER = LogManager.getLogger(Equipment.class);
+
+    private Mark mark;
     private Integer quantity;
 
-    public Equipment(String mark, Integer quantity) {
+    public Equipment(Mark mark, Integer quantity) {
         this.mark = mark;
         this.quantity = quantity;
     }
 
+    public enum Mark {
+
+        APPLE("USA"), LENOVO("China"),IBM("USA");
+
+        private final String country;
+
+        Mark(String country){
+            this.country = country;
+        }
+
+        public String getCountry() {
+            return country;
+        }
+    }
+
+    public void writeOrigin(){
+
+        LOGGER.info("This " + this.getClass().getSimpleName().toLowerCase() + " was made in " + mark.getCountry());
+    }
+
+    public void writeCharacteristic(){
+        switch (mark){
+            case APPLE:
+                LOGGER.info("This equipment is great");
+                break;
+            case LENOVO:
+                LOGGER.info("It's not the best choice of equipment");
+                break;
+            case IBM:
+                LOGGER.info("This equipment is good");
+                break;
+            default:
+                LOGGER.info("There's no info about your equipment");
+                break;
+        }
+    }
+
     @Override
     public String toString() {
-        return ("There are " + quantity + " " + this.getClass().getSimpleName().toLowerCase() + "s of " + mark + " mark");
+        return ("There are " + quantity + " " + this.getClass().getSimpleName().toLowerCase() + "s of " + mark.name() + " mark");
     }
 
     @Override
@@ -33,11 +75,11 @@ public abstract class Equipment {
         return result;
     }
 
-    public void setMark(String mark) {
+    public void setMark(Mark mark) {
         this.mark = mark;
     }
 
-    public String getMark() {
+    public Mark getMark() {
         return mark;
     }
 

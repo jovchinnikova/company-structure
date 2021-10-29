@@ -1,9 +1,6 @@
 package com.solvd.companystructure;
 
-import com.solvd.companystructure.companyinfo.Activity;
-import com.solvd.companystructure.companyinfo.Company;
-import com.solvd.companystructure.companyinfo.Course;
-import com.solvd.companystructure.companyinfo.Department;
+import com.solvd.companystructure.companyinfo.*;
 import com.solvd.companystructure.companyinfo.impl.AccountingImpl;
 import com.solvd.companystructure.exception.InvalidPhoneException;
 import com.solvd.companystructure.infrastructure.*;
@@ -15,6 +12,8 @@ import com.solvd.companystructure.services.impl.CountCostServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -24,7 +23,7 @@ public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         Company solvd = new Company("Solvd Inc");
         CEO director = new CEO("Ivan", "Ivanov");
@@ -41,23 +40,12 @@ public class Main {
 
         solvd.setSite("solvd.com");
 
-        Department qa = new Department("Quality Assurance");
-        Department webdev = new Department("Software Web Development");
-        Department hr = new Department("Human resources");
-        Department pr = new Department("Public relations");
-        List<Department> solvdDepartments = new ArrayList<>();
-        solvdDepartments.add(qa);
-        solvdDepartments.add(webdev);
-        solvdDepartments.add(hr);
-        solvdDepartments.add(pr);
-        solvd.setDepartments(solvdDepartments);
-
         Service manualTest = new Service("manual testing", 200.00);
         Service autoTest = new Service("automated testing", 300.00);
         List<Service> qaServices = new ArrayList<>();
         qaServices.add(manualTest);
         qaServices.add(autoTest);
-        qa.setServices(qaServices);
+        Department.QA.setServices(qaServices);
 
         Worker vasya = new Worker("Vasiliy", "Petrov", 30.00);
         vasya.setStartVacation(LocalDateTime.of(2021, 10, 1, 0, 0));
@@ -113,7 +101,7 @@ public class Main {
         client1.performAction();
         System.out.println();
 
-        AccountingImpl accounting = new AccountingImpl();
+        AccountingImpl accounting = AccountingImpl.createInstance();
         solvd.setAccountingImpl(accounting);
         accounting.setWorkers(solvdWorkers);
         accounting.vacationCount(vasya);
@@ -170,11 +158,13 @@ public class Main {
         engCourseParticip.addAll(tripParticip);
         engCourseParticip.add(igor);
         engCourseParticip.add(tolik);
-        Activity sportTrip = new Activity("sport trip", "forest", tripParticip);
-        Course engCourse = new Course("English course", "office", engCourseParticip);
+        Activity sportTrip = new Activity("sport trip", Location.FOREST, tripParticip);
+        Course engCourse = new Course("English course", Location.OFFICE, engCourseParticip);
+        Course qaCourse = new Course("QA course", Location.OFFICE,engCourseParticip);
         List<Activity> solvdActivities = new ArrayList<>();
         solvdActivities.add(sportTrip);
         solvdActivities.add(engCourse);
+        solvdActivities.add(qaCourse);
         solvd.setActivities(solvdActivities);
         LOGGER.info(sportTrip);
         LOGGER.info(engCourse);
@@ -219,9 +209,9 @@ public class Main {
         ControlClass.doAction(albert);
         System.out.println();
 
-        Laptop lap1 = new Laptop("Apple", 14);
-        Laptop lap2 = new Laptop("Lenovo", 10);
-        Computer comp1 = new Computer("IBM", 20);
+        Laptop lap1 = new Laptop(Equipment.Mark.APPLE, 14);
+        Laptop lap2 = new Laptop(Equipment.Mark.LENOVO, 10);
+        Computer comp1 = new Computer(Equipment.Mark.IBM, 20);
         List<Equipment> belEquipment = new ArrayList<>();
         belEquipment.add(lap1);
         belEquipment.add(lap2);
@@ -304,5 +294,23 @@ public class Main {
         fedyaPerformance.print();
         Fulfillment<Worker, List<FoodSupply>> egorPerformance = new Fulfillment<>(egor, egorWork);
         egorPerformance.print();
+        System.out.println();
+
+        File file = new File("src/main/resources/article.txt");
+        WordsCount count1 = new WordsCount(file);
+        count1.countWords();
+        System.out.println();
+
+        lap1.writeCharacteristic();
+        lap1.writeOrigin();
+        lap2.writeOrigin();
+        comp1.writeCharacteristic();
+        System.out.println();
+
+        solvd.printDepartments();
+        System.out.println();
+
+        LOGGER.info(Location.OFFICE.findActivity(solvdActivities));
+        LOGGER.info(Location.CINEMA.findActivity(solvdActivities));
     }
 }
