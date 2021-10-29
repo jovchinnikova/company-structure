@@ -48,7 +48,7 @@ public class Main {
         Department.QA.setServices(qaServices);
 
         Worker vasya = new Worker("Vasiliy", "Petrov", 30.00);
-        vasya.setStartVacation(LocalDateTime.of(2021, 10, 1, 0, 0));
+        vasya.setStartVacation(LocalDateTime.of(2021, 10, 20, 0, 0));
         vasya.setDob(LocalDateTime.of(1980, 8, 25, 0, 0));
 
         Worker petia = new Worker("Petr", "Pypkin", 25.00);
@@ -56,7 +56,7 @@ public class Main {
         petia.setTillProjectEnd(20);
 
         Worker igor = new Worker("Igor", "Lastochkin", 40.00);
-        igor.setStartVacation(LocalDateTime.of(2021, 10, 2, 0, 0));
+        igor.setStartVacation(LocalDateTime.of(2021, 10, 21, 0, 0));
 
         Worker tolik = new Worker("Anatoliy", "Peskov", 80.00);
         Worker vlad = new Worker("Vladislav", "Baranov", 39.50);

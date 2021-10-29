@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.function.Function;
 
 public class AccountingImpl implements Accounting {
 
@@ -26,10 +27,16 @@ public class AccountingImpl implements Accounting {
         return instance;
     }
 
-    @Override
-    public void vacationCount(Worker worker) {
+    Function<Worker,Integer> getDaysPassed = worker ->{
         LocalDateTime currentDate = LocalDateTime.now();
         Integer daysPassed = currentDate.getDayOfYear() - worker.getStartVacation().getDayOfYear();
+        return daysPassed;
+    };
+
+
+    @Override
+    public void vacationCount(Worker worker) {
+        Integer daysPassed = getDaysPassed.apply(worker);
         Integer daysLeft = Worker.vacationDuration - daysPassed;
         LOGGER.info(worker + " has " + daysLeft + " days of vacation left");
         double vacationPay = daysPassed * worker.getAverageSalary();
@@ -45,10 +52,9 @@ public class AccountingImpl implements Accounting {
 
     @Override
     public void allVacationCount(Set<Worker> workers) {
-        LocalDateTime currentDate = LocalDateTime.now();
         double allPay = 0;
         for (Worker person : workers) {
-            Integer daysPassed = currentDate.getDayOfYear() - person.getStartVacation().getDayOfYear();
+            Integer daysPassed = getDaysPassed.apply(person);
             double vacationPay = daysPassed * person.getAverageSalary();
             allPay = allPay + vacationPay;
         }
