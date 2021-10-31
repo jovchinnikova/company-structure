@@ -11,9 +11,11 @@ import com.solvd.companystructure.services.Order;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Company {
 
@@ -37,18 +39,16 @@ public class Company {
     }
 
     public void countIncome(){
-        double income = 0.0;
-        for (Map.Entry<Integer,Order> order : orders.entrySet()){
-            income = income + order.getValue().getService().getPrice();
-        }
+        double income = orders.values().stream()
+                .mapToDouble(order -> order.getService().getPrice())
+                .sum();
         LOGGER.info("The income will be " + income + "$");
     }
 
     public void printDepartments(){
-        String depList = "";
-        for (Department dep: departments){
-            depList += dep + " ";
-        }
+        String depList = Arrays.stream(departments)
+                .map(department -> department.toString())
+                .collect(Collectors.joining(", "));
         LOGGER.info(title + " has following departments: " + depList);
     }
 

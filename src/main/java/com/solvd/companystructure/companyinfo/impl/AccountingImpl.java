@@ -52,12 +52,9 @@ public class AccountingImpl implements Accounting {
 
     @Override
     public void allVacationCount(Set<Worker> workers) {
-        double allPay = 0;
-        for (Worker person : workers) {
-            Integer daysPassed = getDaysPassed.apply(person);
-            double vacationPay = daysPassed * person.getAverageSalary();
-            allPay = allPay + vacationPay;
-        }
+        double allPay = workers.stream()
+                .mapToDouble(worker -> getDaysPassed.apply(worker) * worker.getAverageSalary())
+                .sum();
         LOGGER.info("The accounting will pay " + allPay + "$ for all workers' vacation");
     }
 

@@ -310,7 +310,10 @@ public class Main {
         solvd.printDepartments();
         System.out.println();
 
-        LOGGER.info(Location.OFFICE.findActivity(solvdActivities));
-        LOGGER.info(Location.CINEMA.findActivity(solvdActivities));
+        String message = "There are no activities in the location";
+        LOGGER.info(Location.OFFICE.findActivity(solvdActivities)
+                .orElse(message));
+        LOGGER.info(Location.CINEMA.findActivity(solvdActivities)
+                .orElse(message));
     }
 }

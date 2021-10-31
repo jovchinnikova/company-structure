@@ -30,10 +30,9 @@ public class Office implements Countable {
     }
 
     public void countEquipment() {
-        Integer quantity = 0;
-        for (Equipment element : allEquipment) {
-            quantity = quantity + element.getQuantity();
-        }
+        Integer quantity = allEquipment.stream()
+                .mapToInt(equipment -> equipment.getQuantity())
+                .sum();
         LOGGER.info("The quantity of equipment at " + name + " office is " + quantity);
     }
 
