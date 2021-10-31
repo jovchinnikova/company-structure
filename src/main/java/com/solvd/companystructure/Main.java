@@ -3,6 +3,7 @@ package com.solvd.companystructure;
 import com.solvd.companystructure.companyinfo.*;
 import com.solvd.companystructure.companyinfo.impl.AccountingImpl;
 import com.solvd.companystructure.exception.InvalidPhoneException;
+import com.solvd.companystructure.exception.TillProjException;
 import com.solvd.companystructure.infrastructure.*;
 import com.solvd.companystructure.people.*;
 import com.solvd.companystructure.people.impl.ActionImpl;
@@ -18,6 +19,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -59,6 +61,7 @@ public class Main {
         igor.setStartVacation(LocalDateTime.of(2021, 10, 21, 0, 0));
 
         Worker tolik = new Worker("Anatoliy", "Peskov", 80.00);
+        tolik.setTillProjectEnd(15);
         Worker vlad = new Worker("Vladislav", "Baranov", 39.50);
         Set<Worker> solvdWorkers = new HashSet<>();
         solvdWorkers.add(vasya);
@@ -315,5 +318,44 @@ public class Main {
                 .orElse(message));
         LOGGER.info(Location.CINEMA.findActivity(solvdActivities)
                 .orElse(message));
+        System.out.println();
+
+        LOGGER.info("Workers with high salary:");
+        solvdWorkers.stream()
+                .filter(worker -> worker.getAverageSalary()>30)
+                .sorted()
+                .forEach(worker -> LOGGER.info(worker + " earns " + worker.getAverageSalary() + "$ a day"));
+        System.out.println();
+
+        List<AdditionalService> addServices = new ArrayList<>();
+        addServices.add(plainClean);
+        addServices.add(generalClean);
+        addServices.add(applesSupply);
+        addServices.add(bananasSupply);
+        Double addServicePrice = addServices.stream()
+                .mapToDouble(addService -> addService.getPrice())
+                .sum();
+        LOGGER.info("All additional services will cost " + addServicePrice);
+        System.out.println();
+
+         List <Worker> participatingWorkers = solvdActivities.stream()
+                .flatMap(activity -> activity.getWorkers().stream())
+                .distinct()
+                .collect(Collectors.toList());
+        LOGGER.info("Participating workers:");
+        LOGGER.info(participatingWorkers);
+        System.out.println();
+
+        Optional<Integer> firstTillProj = solvdWorkers.stream()
+                .map(worker -> worker.getTillProjectEnd())
+                .findFirst();
+        LOGGER.info("First time till project end in list is  " +
+                firstTillProj.orElseThrow(() -> new TillProjException("There is no info about time till project end")));
+        System.out.println();
+
+        solvdWorkers.stream()
+                .filter(worker -> worker.getDob() != null)
+                .peek(worker -> LOGGER.info("There is info about age of " + worker))
+                .forEach(worker -> worker.countAge());
     }
 }

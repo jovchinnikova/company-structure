@@ -12,7 +12,7 @@ public class Worker extends Human {
     public static int vacationDuration = 28;
 
     private double averageSalary;
-    private int tillProjectEnd;
+    private Integer tillProjectEnd;
     private LocalDateTime startVacation;
 
     public Worker(String firstName, String lastName, double averageSalary) {
