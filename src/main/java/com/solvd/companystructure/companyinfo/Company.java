@@ -38,14 +38,14 @@ public class Company {
         this.title = title;
     }
 
-    public void countIncome(){
+    public void countIncome() {
         double income = orders.values().stream()
                 .mapToDouble(order -> order.getService().getPrice())
                 .sum();
         LOGGER.info("The income will be " + income + "$");
     }
 
-    public void printDepartments(){
+    public void printDepartments() {
         String depList = Arrays.stream(departments)
                 .map(department -> department.toString())
                 .collect(Collectors.joining(", "));
@@ -169,11 +169,11 @@ public class Company {
         return offices;
     }
 
-    public void setOrders(Map<Integer,Order> orders){
+    public void setOrders(Map<Integer, Order> orders) {
         this.orders = orders;
     }
 
-    public Map<Integer,Order> getOrders(){
+    public Map<Integer, Order> getOrders() {
         return orders;
     }
 }

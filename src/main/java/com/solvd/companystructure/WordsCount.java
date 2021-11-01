@@ -32,8 +32,8 @@ public class WordsCount {
                 .collect(Collectors.toList());
 
         String finalText = text;
-        Map <String, Integer> countedWords = words.stream()
-                .collect(Collectors.toMap(word -> word,word -> StringUtils.countMatches(finalText,word)));
+        Map<String, Integer> countedWords = words.stream()
+                .collect(Collectors.toMap(word -> word, word -> StringUtils.countMatches(finalText, word)));
 
         Map<String, Integer> sortedWords = sortByComparator(countedWords);
         String fileMessage = sortedWords.entrySet().stream()
@@ -53,10 +53,10 @@ public class WordsCount {
             }
         };
 
-        Map<String, Integer> sortedWords  = new LinkedHashMap<>();
+        Map<String, Integer> sortedWords = new LinkedHashMap<>();
         list.stream()
                 .sorted(wordsCompare)
-                .forEach(word -> sortedWords.put(word.getKey(),word.getValue()));
+                .forEach(word -> sortedWords.put(word.getKey(), word.getValue()));
         return sortedWords;
     }
 

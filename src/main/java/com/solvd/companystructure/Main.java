@@ -23,6 +23,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -109,18 +110,24 @@ public class Main {
         client1.performAction();
         System.out.println();
 
+        Function<Worker, Integer> days = worker -> {
+            LocalDateTime currentDate = LocalDateTime.now();
+            Integer daysPassed = currentDate.getDayOfYear() - worker.getStartVacation().getDayOfYear();
+            return daysPassed;
+        };
+
         AccountingImpl accounting = AccountingImpl.createInstance();
         solvd.setAccountingImpl(accounting);
         accounting.setWorkers(solvdWorkers);
-        accounting.vacationCount(vasya);
-        accounting.vacationCount(igor);
+        accounting.vacationCount(vasya, days);
+        accounting.vacationCount(igor, days);
         accounting.startCount(petia);
         System.out.println();
 
         Set<Worker> workersOnVacation = new HashSet<>();
         workersOnVacation.add(vasya);
         workersOnVacation.add(igor);
-        accounting.allVacationCount(workersOnVacation);
+        accounting.allVacationCount(workersOnVacation, days);
         System.out.println();
 
         client1.makeOrder(solvd, 12345);
@@ -168,7 +175,7 @@ public class Main {
         engCourseParticip.add(tolik);
         Activity sportTrip = new Activity("sport trip", Location.FOREST, tripParticip);
         Course engCourse = new Course("English course", Location.OFFICE, engCourseParticip);
-        Course qaCourse = new Course("QA course", Location.OFFICE,engCourseParticip);
+        Course qaCourse = new Course("QA course", Location.OFFICE, engCourseParticip);
         List<Activity> solvdActivities = new ArrayList<>();
         solvdActivities.add(sportTrip);
         solvdActivities.add(engCourse);
@@ -327,7 +334,7 @@ public class Main {
 
         LOGGER.info("Workers with high salary:");
         solvdWorkers.stream()
-                .filter(worker -> worker.getAverageSalary()>30)
+                .filter(worker -> worker.getAverageSalary() > 30)
                 .sorted()
                 .forEach(worker -> LOGGER.info(worker + " earns " + worker.getAverageSalary() + "$ a day"));
         System.out.println();
@@ -343,7 +350,7 @@ public class Main {
         LOGGER.info("All additional services will cost " + addServicePrice);
         System.out.println();
 
-         List <Worker> participatingWorkers = solvdActivities.stream()
+        List<Worker> participatingWorkers = solvdActivities.stream()
                 .flatMap(activity -> activity.getWorkers().stream())
                 .distinct()
                 .collect(Collectors.toList());
@@ -354,8 +361,8 @@ public class Main {
         Optional<Integer> firstTillProj = solvdWorkers.stream()
                 .map(worker -> worker.getTillProjectEnd())
                 .findFirst();
-        LOGGER.info("First time till project end in list is  " +
-                firstTillProj.orElseThrow(() -> new TillProjException("There is no info about time till project end")));
+        firstTillProj.orElseThrow(() -> new TillProjException("There is no info about time till project end"));
+        LOGGER.info("First time till project end in list is  " + firstTillProj);
         System.out.println();
 
         solvdWorkers.stream()
@@ -364,12 +371,8 @@ public class Main {
                 .forEach(worker -> worker.countAge());
         System.out.println();
 
-        Constructor[] constructors =  Dog.class.getConstructors();
-        List<Class[]> paramTypes = Arrays.stream(constructors)
-                .map(constructor -> constructor.getParameterTypes())
-                .collect(Collectors.toList());
-
-        Dog dog1 = Dog.class.getConstructor(paramTypes.get(0)).newInstance("igor", "buldog");
+        Class<?>[] paramTypes = {String.class, String.class};
+        Dog dog1 = Dog.class.getConstructor(paramTypes).newInstance("igor", "buldog");
         Field name = Dog.class.getDeclaredField("name");
         name.setAccessible(true);
         LOGGER.info(name.get(dog1));
@@ -378,20 +381,18 @@ public class Main {
         bark.invoke(dog1);
         System.out.println();
 
-        OtherDog otherDog1 = null;
         Class<?> otherDog = Class.forName(OtherDog.class.getName());
-        otherDog1 = (OtherDog) otherDog.newInstance();
+        OtherDog otherDog1 = (OtherDog) otherDog.newInstance();
         Field otherName = OtherDog.class.getDeclaredField("name");
         otherName.setAccessible(true);
-        otherName.set(otherDog1,"fedor");
-        String oName = (String)otherName.get(otherDog1);
+        otherName.set(otherDog1, "fedor");
+        String oName = (String) otherName.get(otherDog1);
         Field otherBreed = OtherDog.class.getDeclaredField("breed");
         otherBreed.setAccessible(true);
-        otherBreed.set(otherDog1,"mops");
-        String oBreed = (String)otherBreed.get(otherDog1);
-        Method otherBark = OtherDog.class.getDeclaredMethod("bark",paramTypes.get(0));
+        otherBreed.set(otherDog1, "mops");
+        String oBreed = (String) otherBreed.get(otherDog1);
+        Method otherBark = OtherDog.class.getDeclaredMethod("bark", paramTypes);
         otherBark.setAccessible(true);
-        otherBark.invoke(otherDog1,oName,oBreed);
-
+        otherBark.invoke(otherDog1, oName, oBreed);
     }
 }

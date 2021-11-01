@@ -7,34 +7,34 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public enum Location{
-    FOREST("beautiful forest"),OFFICE("Solvd office"), CINEMA("cinema Belarus");
+public enum Location {
+    FOREST("beautiful forest"), OFFICE("Solvd office"), CINEMA("cinema Belarus");
 
     private static final Logger LOGGER = LogManager.getLogger(Location.class);
 
     private final String name;
 
-    Location(String name){
+    Location(String name) {
         this.name = name;
     }
 
-    public Optional<String> findActivity(List<Activity> activities){
+    public Optional<String> findActivity(List<Activity> activities) {
         String message = activities.stream()
                 .filter(activity -> activity.getLocation().name.equals(this.name))
                 .map(activity -> activity.getName() + " is held in " + this.name)
                 .collect(Collectors.joining("; "));
-        if(message.isEmpty()){
+        if (message.isEmpty()) {
             message = null;
         }
         return Optional.ofNullable(message);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.name;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 }

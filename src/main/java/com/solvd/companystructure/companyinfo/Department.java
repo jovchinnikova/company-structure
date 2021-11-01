@@ -6,7 +6,7 @@ import java.util.List;
 
 public enum Department {
 
-    QA("Quality Assurance"),WEBDEV("Software Web Development"),HR("Human resources"),PR("Public relations");
+    QA("Quality Assurance"), WEBDEV("Software Web Development"), HR("Human resources"), PR("Public relations");
 
     private final String title;
     private List<Service> services;
