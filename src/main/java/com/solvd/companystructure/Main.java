@@ -15,6 +15,10 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,7 +29,8 @@ public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchFieldException,
+            IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalArgumentException {
 
         Company solvd = new Company("Solvd Inc");
         CEO director = new CEO("Ivan", "Ivanov");
@@ -357,5 +362,36 @@ public class Main {
                 .filter(worker -> worker.getDob() != null)
                 .peek(worker -> LOGGER.info("There is info about age of " + worker))
                 .forEach(worker -> worker.countAge());
+        System.out.println();
+
+        Constructor[] constructors =  Dog.class.getConstructors();
+        List<Class[]> paramTypes = Arrays.stream(constructors)
+                .map(constructor -> constructor.getParameterTypes())
+                .collect(Collectors.toList());
+
+        Dog dog1 = Dog.class.getConstructor(paramTypes.get(0)).newInstance("igor", "buldog");
+        Field name = Dog.class.getDeclaredField("name");
+        name.setAccessible(true);
+        LOGGER.info(name.get(dog1));
+        Method bark = Dog.class.getDeclaredMethod("bark");
+        bark.setAccessible(true);
+        bark.invoke(dog1);
+        System.out.println();
+
+        OtherDog otherDog1 = null;
+        Class<?> otherDog = Class.forName(OtherDog.class.getName());
+        otherDog1 = (OtherDog) otherDog.newInstance();
+        Field otherName = OtherDog.class.getDeclaredField("name");
+        otherName.setAccessible(true);
+        otherName.set(otherDog1,"fedor");
+        String oName = (String)otherName.get(otherDog1);
+        Field otherBreed = OtherDog.class.getDeclaredField("breed");
+        otherBreed.setAccessible(true);
+        otherBreed.set(otherDog1,"mops");
+        String oBreed = (String)otherBreed.get(otherDog1);
+        Method otherBark = OtherDog.class.getDeclaredMethod("bark",paramTypes.get(0));
+        otherBark.setAccessible(true);
+        otherBark.invoke(otherDog1,oName,oBreed);
+
     }
 }
