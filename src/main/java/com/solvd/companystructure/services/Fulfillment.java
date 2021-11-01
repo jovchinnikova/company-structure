@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The class describes a worker and a type of service he is able to do
@@ -26,10 +27,9 @@ public class Fulfillment<T extends Worker, M extends List<? extends AdditionalSe
     }
 
     public void print() {
-        String name = "";
-        for (AdditionalService task : workTypes) {
-            name = name + " " + task.getServiceParam();
-        }
+        String name = workTypes.stream()
+                .map(workType -> workType.getServiceParam())
+                .collect(Collectors.joining(", "));
         LOGGER.info(worker + " can fulfill " + name);
     }
 

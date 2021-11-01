@@ -4,32 +4,37 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-public enum Location{
-    FOREST("beautiful forest"),OFFICE("Solvd office"), CINEMA("cinema Belarus");
+public enum Location {
+    FOREST("beautiful forest"), OFFICE("Solvd office"), CINEMA("cinema Belarus");
 
     private static final Logger LOGGER = LogManager.getLogger(Location.class);
 
     private final String name;
 
-    Location(String name){
+    Location(String name) {
         this.name = name;
     }
 
-    public String findActivity(List<Activity> activities){
-        String message = "";
-        for(Activity activity:activities){
-            if(activity.getLocation().name.equals(this.name)){
-                message = activity.getName() + " is held in " + this.name + "; " + message;
-            }
+    public Optional<String> findActivity(List<Activity> activities) {
+        String message = activities.stream()
+                .filter(activity -> activity.getLocation().name.equals(this.name))
+                .map(activity -> activity.getName() + " is held in " + this.name)
+                .collect(Collectors.joining("; "));
+        if (message.isEmpty()) {
+            message = null;
         }
-        if(message.isEmpty()){
-            message = "There are no activities held in the location";
-        }
-        return message;
+        return Optional.ofNullable(message);
     }
 
-    public String getName(){
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
+    public String getName() {
         return name;
     }
 }

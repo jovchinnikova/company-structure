@@ -3,6 +3,7 @@ package com.solvd.companystructure;
 import com.solvd.companystructure.companyinfo.*;
 import com.solvd.companystructure.companyinfo.impl.AccountingImpl;
 import com.solvd.companystructure.exception.InvalidPhoneException;
+import com.solvd.companystructure.exception.TillProjException;
 import com.solvd.companystructure.infrastructure.*;
 import com.solvd.companystructure.people.*;
 import com.solvd.companystructure.people.impl.ActionImpl;
@@ -14,16 +15,22 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchFieldException,
+            IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalArgumentException {
 
         Company solvd = new Company("Solvd Inc");
         CEO director = new CEO("Ivan", "Ivanov");
@@ -48,7 +55,7 @@ public class Main {
         Department.QA.setServices(qaServices);
 
         Worker vasya = new Worker("Vasiliy", "Petrov", 30.00);
-        vasya.setStartVacation(LocalDateTime.of(2021, 10, 1, 0, 0));
+        vasya.setStartVacation(LocalDateTime.of(2021, 10, 20, 0, 0));
         vasya.setDob(LocalDateTime.of(1980, 8, 25, 0, 0));
 
         Worker petia = new Worker("Petr", "Pypkin", 25.00);
@@ -56,9 +63,10 @@ public class Main {
         petia.setTillProjectEnd(20);
 
         Worker igor = new Worker("Igor", "Lastochkin", 40.00);
-        igor.setStartVacation(LocalDateTime.of(2021, 10, 2, 0, 0));
+        igor.setStartVacation(LocalDateTime.of(2021, 10, 21, 0, 0));
 
         Worker tolik = new Worker("Anatoliy", "Peskov", 80.00);
+        tolik.setTillProjectEnd(15);
         Worker vlad = new Worker("Vladislav", "Baranov", 39.50);
         Set<Worker> solvdWorkers = new HashSet<>();
         solvdWorkers.add(vasya);
@@ -101,18 +109,24 @@ public class Main {
         client1.performAction();
         System.out.println();
 
+        Function<Worker, Integer> days = worker -> {
+            LocalDateTime currentDate = LocalDateTime.now();
+            Integer daysPassed = currentDate.getDayOfYear() - worker.getStartVacation().getDayOfYear();
+            return daysPassed;
+        };
+
         AccountingImpl accounting = AccountingImpl.createInstance();
         solvd.setAccountingImpl(accounting);
         accounting.setWorkers(solvdWorkers);
-        accounting.vacationCount(vasya);
-        accounting.vacationCount(igor);
+        accounting.vacationCount(vasya, days);
+        accounting.vacationCount(igor, days);
         accounting.startCount(petia);
         System.out.println();
 
         Set<Worker> workersOnVacation = new HashSet<>();
         workersOnVacation.add(vasya);
         workersOnVacation.add(igor);
-        accounting.allVacationCount(workersOnVacation);
+        accounting.allVacationCount(workersOnVacation, days);
         System.out.println();
 
         client1.makeOrder(solvd, 12345);
@@ -160,7 +174,7 @@ public class Main {
         engCourseParticip.add(tolik);
         Activity sportTrip = new Activity("sport trip", Location.FOREST, tripParticip);
         Course engCourse = new Course("English course", Location.OFFICE, engCourseParticip);
-        Course qaCourse = new Course("QA course", Location.OFFICE,engCourseParticip);
+        Course qaCourse = new Course("QA course", Location.OFFICE, engCourseParticip);
         List<Activity> solvdActivities = new ArrayList<>();
         solvdActivities.add(sportTrip);
         solvdActivities.add(engCourse);
@@ -310,7 +324,74 @@ public class Main {
         solvd.printDepartments();
         System.out.println();
 
-        LOGGER.info(Location.OFFICE.findActivity(solvdActivities));
-        LOGGER.info(Location.CINEMA.findActivity(solvdActivities));
+        String message = "There are no activities in the location";
+        LOGGER.info(Location.OFFICE.findActivity(solvdActivities)
+                .orElse(message));
+        LOGGER.info(Location.CINEMA.findActivity(solvdActivities)
+                .orElse(message));
+        System.out.println();
+
+        LOGGER.info("Workers with high salary:");
+        solvdWorkers.stream()
+                .filter(worker -> worker.getAverageSalary() > 30)
+                .sorted()
+                .forEach(worker -> LOGGER.info(worker + " earns " + worker.getAverageSalary() + "$ a day"));
+        System.out.println();
+
+        List<AdditionalService> addServices = new ArrayList<>();
+        addServices.add(plainClean);
+        addServices.add(generalClean);
+        addServices.add(applesSupply);
+        addServices.add(bananasSupply);
+        Double addServicePrice = addServices.stream()
+                .mapToDouble(addService -> addService.getPrice())
+                .sum();
+        LOGGER.info("All additional services will cost " + addServicePrice);
+        System.out.println();
+
+        List<Worker> participatingWorkers = solvdActivities.stream()
+                .flatMap(activity -> activity.getWorkers().stream())
+                .distinct()
+                .collect(Collectors.toList());
+        LOGGER.info("Participating workers:");
+        LOGGER.info(participatingWorkers);
+        System.out.println();
+
+        Integer firstTillProj = solvdWorkers.stream()
+                .map(worker -> worker.getTillProjectEnd())
+                .findFirst()
+                .orElseThrow(() -> new TillProjException("There is no info about time till project end"));
+        LOGGER.info("First time till project end in list is  " + firstTillProj);
+        System.out.println();
+
+        solvdWorkers.stream()
+                .filter(worker -> worker.getDob() != null)
+                .peek(worker -> LOGGER.info("There is info about age of " + worker))
+                .forEach(worker -> worker.countAge());
+        System.out.println();
+
+        Class<?>[] paramTypes = {String.class, String.class};
+        Dog dog1 = Dog.class.getConstructor(paramTypes).newInstance("igor", "buldog");
+        Field name = Dog.class.getDeclaredField("name");
+        name.setAccessible(true);
+        LOGGER.info(name.get(dog1));
+        Method bark = Dog.class.getDeclaredMethod("bark");
+        bark.setAccessible(true);
+        bark.invoke(dog1);
+        System.out.println();
+
+        Class<?> otherDog = Class.forName(OtherDog.class.getName());
+        OtherDog otherDog1 = (OtherDog) otherDog.newInstance();
+        Field otherName = OtherDog.class.getDeclaredField("name");
+        otherName.setAccessible(true);
+        otherName.set(otherDog1, "fedor");
+        String oName = (String) otherName.get(otherDog1);
+        Field otherBreed = OtherDog.class.getDeclaredField("breed");
+        otherBreed.setAccessible(true);
+        otherBreed.set(otherDog1, "mops");
+        String oBreed = (String) otherBreed.get(otherDog1);
+        Method otherBark = OtherDog.class.getDeclaredMethod("bark", paramTypes);
+        otherBark.setAccessible(true);
+        otherBark.invoke(otherDog1, oName, oBreed);
     }
 }

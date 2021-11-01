@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WordsCount {
 
@@ -24,26 +25,21 @@ public class WordsCount {
         String text = FileUtils.readFileToString(file, String.valueOf(StandardCharsets.UTF_8));
         text = text.toLowerCase(Locale.ROOT);
         String delimiter = "[^a-z-’]+";
-        List<String> words = new ArrayList<>();
-        for (String word : text.split(delimiter)) {
-            if (!words.contains(word) & !word.isEmpty()) {
-                words.add(word);
-            }
-        }
+        String[] splitText = text.split(delimiter);
+        List<String> words = Arrays.stream(splitText)
+                .filter(word -> !word.isEmpty())
+                .distinct()
+                .collect(Collectors.toList());
 
-        Map<String, Integer> countedWords = new HashMap<>();
-        for (String word : words) {
-            Integer quantity = StringUtils.countMatches(text, word);
-            countedWords.put(word, quantity);
-        }
+        String finalText = text;
+        Map<String, Integer> countedWords = words.stream()
+                .collect(Collectors.toMap(word -> word, word -> StringUtils.countMatches(finalText, word)));
 
-        Map<String, Integer> sortedWords = WordsCount.sortByComparator(countedWords);
-        String fileMessage = "";
-        for (Map.Entry<String, Integer> word : sortedWords.entrySet()) {
-            String message = word.getKey() + " " + word.getValue();
-            LOGGER.info(message);
-            fileMessage += message + System.lineSeparator();
-        }
+        Map<String, Integer> sortedWords = sortByComparator(countedWords);
+        String fileMessage = sortedWords.entrySet().stream()
+                .map(word -> word.getKey() + " " + word.getValue())
+                .collect(Collectors.joining(System.lineSeparator()));
+        LOGGER.info(fileMessage);
         File output = new File("src/main/resources/output.txt");
         FileUtils.writeStringToFile(output, fileMessage);
     }
@@ -57,11 +53,10 @@ public class WordsCount {
             }
         };
 
-        Collections.sort(list, wordsCompare);
         Map<String, Integer> sortedWords = new LinkedHashMap<>();
-        for (Map.Entry<String, Integer> word : list) {
-            sortedWords.put(word.getKey(), word.getValue());
-        }
+        list.stream()
+                .sorted(wordsCompare)
+                .forEach(word -> sortedWords.put(word.getKey(), word.getValue()));
         return sortedWords;
     }
 

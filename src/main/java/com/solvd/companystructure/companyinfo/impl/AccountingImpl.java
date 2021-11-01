@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.function.Function;
 
 public class AccountingImpl implements Accounting {
 
@@ -15,21 +16,20 @@ public class AccountingImpl implements Accounting {
 
     private Set<Worker> workers;
 
-    private AccountingImpl(){
+    private AccountingImpl() {
 
     }
 
-    public static AccountingImpl createInstance(){
-        if(instance==null){
+    public static AccountingImpl createInstance() {
+        if (instance == null) {
             instance = new AccountingImpl();
         }
         return instance;
     }
 
     @Override
-    public void vacationCount(Worker worker) {
-        LocalDateTime currentDate = LocalDateTime.now();
-        Integer daysPassed = currentDate.getDayOfYear() - worker.getStartVacation().getDayOfYear();
+    public void vacationCount(Worker worker, Function<Worker, Integer> days) {
+        Integer daysPassed = days.apply(worker);
         Integer daysLeft = Worker.vacationDuration - daysPassed;
         LOGGER.info(worker + " has " + daysLeft + " days of vacation left");
         double vacationPay = daysPassed * worker.getAverageSalary();
@@ -44,14 +44,10 @@ public class AccountingImpl implements Accounting {
     }
 
     @Override
-    public void allVacationCount(Set<Worker> workers) {
-        LocalDateTime currentDate = LocalDateTime.now();
-        double allPay = 0;
-        for (Worker person : workers) {
-            Integer daysPassed = currentDate.getDayOfYear() - person.getStartVacation().getDayOfYear();
-            double vacationPay = daysPassed * person.getAverageSalary();
-            allPay = allPay + vacationPay;
-        }
+    public void allVacationCount(Set<Worker> workers, Function<Worker, Integer> days) {
+        double allPay = workers.stream()
+                .mapToDouble(worker -> days.apply(worker) * worker.getAverageSalary())
+                .sum();
         LOGGER.info("The accounting will pay " + allPay + "$ for all workers' vacation");
     }
 
