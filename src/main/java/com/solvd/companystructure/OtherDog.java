@@ -11,7 +11,7 @@ public class OtherDog {
     private String name;
     private String breed;
 
-    private void bark(String name,String breed){
+    private void bark(String name, String breed) {
         LOGGER.info("Your " + breed + " called " + name + " is barking");
     }
 }

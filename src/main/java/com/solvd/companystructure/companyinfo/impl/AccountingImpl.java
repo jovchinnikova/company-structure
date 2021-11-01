@@ -16,27 +16,20 @@ public class AccountingImpl implements Accounting {
 
     private Set<Worker> workers;
 
-    private AccountingImpl(){
+    private AccountingImpl() {
 
     }
 
-    public static AccountingImpl createInstance(){
-        if(instance==null){
+    public static AccountingImpl createInstance() {
+        if (instance == null) {
             instance = new AccountingImpl();
         }
         return instance;
     }
 
-    Function<Worker,Integer> getDaysPassed = worker ->{
-        LocalDateTime currentDate = LocalDateTime.now();
-        Integer daysPassed = currentDate.getDayOfYear() - worker.getStartVacation().getDayOfYear();
-        return daysPassed;
-    };
-
-
     @Override
-    public void vacationCount(Worker worker) {
-        Integer daysPassed = getDaysPassed.apply(worker);
+    public void vacationCount(Worker worker, Function<Worker, Integer> days) {
+        Integer daysPassed = days.apply(worker);
         Integer daysLeft = Worker.vacationDuration - daysPassed;
         LOGGER.info(worker + " has " + daysLeft + " days of vacation left");
         double vacationPay = daysPassed * worker.getAverageSalary();
@@ -51,9 +44,9 @@ public class AccountingImpl implements Accounting {
     }
 
     @Override
-    public void allVacationCount(Set<Worker> workers) {
+    public void allVacationCount(Set<Worker> workers, Function<Worker, Integer> days) {
         double allPay = workers.stream()
-                .mapToDouble(worker -> getDaysPassed.apply(worker) * worker.getAverageSalary())
+                .mapToDouble(worker -> days.apply(worker) * worker.getAverageSalary())
                 .sum();
         LOGGER.info("The accounting will pay " + allPay + "$ for all workers' vacation");
     }
