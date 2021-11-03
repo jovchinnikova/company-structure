@@ -1,4 +1,4 @@
-package com.solvd.companystructure;
+package com.solvd.companystructure.reflection;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

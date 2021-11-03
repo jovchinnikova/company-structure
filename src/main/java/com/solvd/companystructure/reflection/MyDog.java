@@ -1,4 +1,4 @@
-package com.solvd.companystructure;
+package com.solvd.companystructure.reflection;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

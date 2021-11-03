@@ -8,6 +8,8 @@ import com.solvd.companystructure.infrastructure.*;
 import com.solvd.companystructure.people.*;
 import com.solvd.companystructure.people.impl.ActionImpl;
 import com.solvd.companystructure.people.impl.CountPeopleServiceImpl;
+import com.solvd.companystructure.reflection.Dog;
+import com.solvd.companystructure.reflection.OtherDog;
 import com.solvd.companystructure.services.*;
 import com.solvd.companystructure.services.impl.CountCostServiceImpl;
 import org.apache.logging.log4j.LogManager;
