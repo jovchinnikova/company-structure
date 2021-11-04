@@ -12,6 +12,8 @@ import com.solvd.companystructure.reflection.Dog;
 import com.solvd.companystructure.reflection.OtherDog;
 import com.solvd.companystructure.services.*;
 import com.solvd.companystructure.services.impl.CountCostServiceImpl;
+import com.solvd.companystructure.threads.Connection;
+import com.solvd.companystructure.threads.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,15 +26,19 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Main {
 
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchFieldException,
-            IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalArgumentException {
+            IllegalAccessException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalArgumentException, InterruptedException {
 
         Company solvd = new Company("Solvd Inc");
         CEO director = new CEO("Ivan", "Ivanov");
@@ -395,5 +401,26 @@ public class Main {
         Method otherBark = OtherDog.class.getDeclaredMethod("bark", paramTypes);
         otherBark.setAccessible(true);
         otherBark.invoke(otherDog1, oName, oBreed);
+        System.out.println();
+
+        LOGGER.info("Thread usage");
+        IntStream.range(0,100)
+                .boxed()
+                .forEach(index -> {
+                    Thread thread = new Thread(() ->
+                    {
+                        ConnectionPool connectionPool = ConnectionPool.getInstance(5);
+                        Connection connection = connectionPool.getConnection();
+                        connection.create();
+                        connection.update();
+                        connectionPool.releaseConnection(connection);
+                    });
+                    thread.start();
+                    try {
+                        thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 }
