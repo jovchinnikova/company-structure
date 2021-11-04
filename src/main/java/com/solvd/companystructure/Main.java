@@ -26,6 +26,9 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -401,7 +404,7 @@ public class Main {
         System.out.println();
 
         LOGGER.info("Thread usage");
-        IntStream.range(0,100)
+        IntStream.range(0, 50)
                 .boxed()
                 .forEach(index -> {
                     Thread thread = new Thread(() ->
@@ -419,5 +422,21 @@ public class Main {
                         e.printStackTrace();
                     }
                 });
+
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+
+        IntStream.range(0,50)
+                .forEach(ind -> {
+                    CompletableFuture<Void> connectionFuture = CompletableFuture.runAsync(() ->
+                    {
+                        IntStream.range(0, 5)
+                                .forEach(index -> {
+                                    Connection connection = new Connection("Connection " + index);
+                                    connection.create();
+                                    connection.update();
+                                });
+                    },executorService);
+                });
+        executorService.shutdown();
     }
 }
