@@ -12,6 +12,8 @@ import com.solvd.companystructure.reflection.Dog;
 import com.solvd.companystructure.reflection.OtherDog;
 import com.solvd.companystructure.services.*;
 import com.solvd.companystructure.services.impl.CountCostServiceImpl;
+import com.solvd.companystructure.threads.Connection;
+import com.solvd.companystructure.threads.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,8 +26,11 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Main {
 
@@ -395,5 +400,19 @@ public class Main {
         Method otherBark = OtherDog.class.getDeclaredMethod("bark", paramTypes);
         otherBark.setAccessible(true);
         otherBark.invoke(otherDog1, oName, oBreed);
+        System.out.println();
+
+        ConnectionPool connectionPool = ConnectionPool.getInstance(5);
+        IntStream.range(0,100)
+                .boxed()
+                .forEach(index -> {
+                    Thread thread = new Thread(connectionPool);
+                    thread.start();
+                    try {
+                        thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 }
