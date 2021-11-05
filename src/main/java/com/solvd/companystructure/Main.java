@@ -430,20 +430,18 @@ public class Main {
 
         ExecutorService executorService = Executors.newFixedThreadPool(5);
 
-        List<CompletableFuture<Void>> futuresList = new ArrayList<>();
-        IntStream.range(0,50)
-                .forEach(ind -> {
-                    CompletableFuture<Void> connectionFuture = CompletableFuture.runAsync(() ->
-                    {
-                        IntStream.range(0, 5)
-                                .forEach(index -> {
-                                    Connection connection = new Connection("Connection " + index);
-                                    connection.create(sleep);
-                                    connection.update(sleep);
-                                });
-                    },executorService);
-                    futuresList.add(connectionFuture);
-                });
+        List<CompletableFuture<Void>> futuresList = IntStream.range(0,50)
+                .boxed()
+                .map(ind -> CompletableFuture.runAsync(() ->
+                {
+                    IntStream.range(0, 5)
+                            .forEach(index -> {
+                                Connection connection = new Connection("Connection " + index);
+                                connection.create(sleep);
+                                connection.update(sleep);
+                            });
+                },executorService))
+                .collect(Collectors.toList());
 
         int size = futuresList.size();
         CompletableFuture<Void> allFutures =
