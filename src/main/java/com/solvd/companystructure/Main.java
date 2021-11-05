@@ -29,6 +29,7 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -403,6 +404,14 @@ public class Main {
         otherBark.invoke(otherDog1, oName, oBreed);
         System.out.println();
 
+        Consumer<Integer> sleep = (duration -> {
+            try {
+                Thread.sleep(duration);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
         LOGGER.info("Thread usage");
         IntStream.range(0, 50)
                 .boxed()
@@ -411,20 +420,17 @@ public class Main {
                     {
                         ConnectionPool connectionPool = ConnectionPool.getInstance(5);
                         Connection connection = connectionPool.getConnection();
-                        connection.create();
-                        connection.update();
+                        connection.create(sleep);
+                        connection.update(sleep);
                         connectionPool.releaseConnection(connection);
                     });
                     thread.start();
-                    try {
-                        thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    sleep.accept(500);
                 });
 
         ExecutorService executorService = Executors.newFixedThreadPool(5);
 
+        List<CompletableFuture<Void>> futuresList = new ArrayList<>();
         IntStream.range(0,50)
                 .forEach(ind -> {
                     CompletableFuture<Void> connectionFuture = CompletableFuture.runAsync(() ->
@@ -432,11 +438,20 @@ public class Main {
                         IntStream.range(0, 5)
                                 .forEach(index -> {
                                     Connection connection = new Connection("Connection " + index);
-                                    connection.create();
-                                    connection.update();
+                                    connection.create(sleep);
+                                    connection.update(sleep);
                                 });
                     },executorService);
+                    futuresList.add(connectionFuture);
                 });
+
+        int size = futuresList.size();
+        CompletableFuture<Void> allFutures =
+                CompletableFuture.allOf(futuresList.toArray(new CompletableFuture[size]));
+        allFutures.join();
+
+        System.out.println();
+        LOGGER.info("End of threads");
         executorService.shutdown();
     }
 }

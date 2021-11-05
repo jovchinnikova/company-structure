@@ -3,6 +3,8 @@ package com.solvd.companystructure.threads;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.function.Consumer;
+
 public class Connection{
 
     private static final Logger LOGGER = LogManager.getLogger(Connection.class);
@@ -13,49 +15,29 @@ public class Connection{
         this.name = name;
     }
 
-    public void create(){
+    public void create(Consumer<Integer> time){
         LOGGER.info("I created " + getName());
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        time.accept(500);
         }
-    }
 
-    public void read(){
+    public void read(Consumer<Integer> time){
         LOGGER.info("I read " + getName());
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        time.accept(500);
     }
 
-    public void update(){
+    public void update(Consumer<Integer> time){
         LOGGER.info("I updated " + getName());
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        time.accept(500);
     }
 
-    public void delete(){
+    public void delete(Consumer<Integer> time){
         LOGGER.info("I deleted " + getName());
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        time.accept(500);
     }
 
-    public void print(){
+    public void print(Consumer<Integer> time){
         LOGGER.info("I printed " + getName());
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        time.accept(500);
     }
 
     public String getName(){
